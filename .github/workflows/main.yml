@@ -29,14 +29,13 @@ jobs:
           npm install eslint --save-dev
           npm run fix .
       
-          # Run ESLint and calculate the percentage of warnings
-          eslint_result=$(npx eslint --format=json "src/**/*.js" ".")
-          total_warnings=$(echo "$eslint_result" | jq '.[0].warningCount')
+          # Run ESLint and capture the warning count
+          total_warnings=$(npx eslint --quiet --max-warnings=0 "src/**/*.js" "." | grep -o ' warning' | wc -l)
           total_files=$(find ./src -type f -name "*.js" | wc -l)
           percentage=$((total_warnings * 100 / total_files))
       
           # Set the threshold percentage
-          max_percentage=100
+          max_percentage=20
       
           # Check if the percentage exceeds the threshold
           if [ "$percentage" -gt "$max_percentage" ]; then
