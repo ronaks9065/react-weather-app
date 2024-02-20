@@ -38,7 +38,7 @@ jobs:
           percentage=$((total_warnings * 100 / total_files))
       
           # Set the threshold percentage
-          max_percentage=2
+          max_percentage=0
       
           # Check if the percentage exceeds the threshold
           if [ "$percentage" -gt "$max_percentage" ]; then
