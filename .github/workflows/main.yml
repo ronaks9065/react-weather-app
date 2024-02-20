@@ -13,37 +13,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 14
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
 
-      # - name: ESLint
-      #   run: |
-      #     npm install eslint --save-dev
-      #     npm run fix .
-      #     npx eslint --max-warnings=40 "src/**/*.js" "."
-
       - name: ESLint
         run: |
           npm install eslint --save-dev
-          npm run fix .
-      
-          # Run ESLint and capture the warning count
-          total_warnings=$(npx eslint --quiet --max-warnings=0 "src/**/*.js" "." | grep -o ' warning' | wc -l)
-          total_files=$(find ./src -type f -name "*.js" | wc -l)
-          percentage=$((total_warnings * 100 / total_files))
-      
-          # Set the threshold percentage
-          max_percentage=20
-      
-          # Check if the percentage exceeds the threshold
-          if [ "$percentage" -gt "$max_percentage" ]; then
-            echo "Exceeded the maximum allowed percentage of warnings ($max_percentage%). Failing the build."
-            exit 1
-          else
-            echo "Warning percentage: $percentage%"
-          fi
+          npm run lint
+          npx eslint --max-warnings=40 "src/**/*.js" "."
 
       # - name: ESLint
       #   run: npm run fix .
